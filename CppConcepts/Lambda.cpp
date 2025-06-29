@@ -9,7 +9,8 @@ int main()
     const int BUFFER = 10;
     auto lambda = [BUFFER](int value)
     {
-        return value + BUFFER;
+        value = value + BUFFER;
+        return value;
     };
 
     std::cout << lambda(10);

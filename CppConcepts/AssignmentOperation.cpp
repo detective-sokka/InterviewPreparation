@@ -34,7 +34,8 @@ int main()
 {
     Tuna canned{10};
     Tuna newCanned{canned};
-    Tuna random = canned;
+    Tuna random{4};
+    random = canned;
 
     std::cout << newCanned.getSmelliness() << std::endl;   
     std::cout << random.getSmelliness();
