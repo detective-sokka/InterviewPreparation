@@ -1,7 +1,3 @@
-/*
-Parking lot system
-*/
-
 /* 
 Entities :
 
