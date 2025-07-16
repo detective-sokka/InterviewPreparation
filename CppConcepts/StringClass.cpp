@@ -17,13 +17,11 @@ class String
         size_t size = strlen(pData);
         
         m_data = (char*) malloc(sizeof(char) * (size + 1));
-        if (!m_data) throw std::bad_alloc();
+        if (!m_data) 
+            throw std::bad_alloc();
         m_size = size;
 
-        for (size=0; pData[size] != '\0'; size++)
-            m_data[size]  = pData[size];
-
-        m_data[size] = '\0';
+        strcpy(m_data, pData);
     }
 
     String(String&& rValue) noexcept 
@@ -59,12 +57,8 @@ class String
         if (param.m_size == 0)       
             return;
         
-        m_data = (char*) malloc(sizeof(char) * (param.m_size + 1));
-        
-        for (size_t i = 0; i < param.m_size; i++)
-            m_data[i] = param.m_data[i];
-
-        m_data[m_size] = '\0';
+        m_data = (char*) malloc(sizeof(char) * (param.m_size + 1));        
+        strcpy(m_data, param.m_data);
     }
 
     String& operator=(const String &param)
@@ -79,10 +73,7 @@ class String
         m_data = (char*) malloc(sizeof(char) * (param.m_size + 1));
         m_size = param.m_size;
         
-        for (size_t i = 0; i < param.m_size; i++)
-            m_data[i] = param.m_data[i];
-
-        m_data[m_size] = '\0';
+        strcpy(m_data, param.m_data);
 
         return *this;
     } 
