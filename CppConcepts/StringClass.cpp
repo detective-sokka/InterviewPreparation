@@ -9,17 +9,15 @@ class String
     {
     }
 
-    String(char *pData) : m_data{nullptr}, m_size{0}
+    String(const char *pData) : m_data{nullptr}, m_size{0}
     {
         if (!pData)
             return;
         
-        size_t size;
-        for (size=0; pData[size] != '\0'; size++)
-        {            
-        }
+        size_t size = strlen(pData);
         
         m_data = (char*) malloc(sizeof(char) * (size + 1));
+        if (!m_data) throw std::bad_alloc();
         m_size = size;
 
         for (size=0; pData[size] != '\0'; size++)
@@ -28,15 +26,42 @@ class String
         m_data[size] = '\0';
     }
 
+    String(String&& rValue) noexcept 
+                          : m_data{rValue.m_data}, m_size{rValue.m_size}
+    {
+        std::cout << "\nMove Constructor called.";        
+        
+        rValue.m_data = nullptr;
+        rValue.m_size = 0;
+    }
+
+    String& operator=(String &&rValue) noexcept
+    {
+        std::cout << "\nMove operator called.";
+
+        if (&rValue != this)
+        {
+            free(m_data);
+            m_data = nullptr;            
+
+            m_data = rValue.m_data;
+            m_size = rValue.m_size;
+
+            rValue.m_size = 0;
+            rValue.m_data = nullptr;
+        }
+
+        return *this;
+    }
+
     String(const String &param) : m_data{nullptr}, m_size{param.m_size}
     {
         if (param.m_size == 0)       
             return;
         
         m_data = (char*) malloc(sizeof(char) * (param.m_size + 1));
-        m_size = param.m_size;
         
-        for (int i = 0; i < param.m_size; i++)
+        for (size_t i = 0; i < param.m_size; i++)
             m_data[i] = param.m_data[i];
 
         m_data[m_size] = '\0';
@@ -47,17 +72,14 @@ class String
         if(&param == this)
             return *this;
         
-        if (m_data != nullptr)
-        {
-            free(m_data);
-            m_size = 0;
-            m_data = nullptr;
-        }
+        free(m_data);
+        m_size = 0;
+        m_data = nullptr;
 
         m_data = (char*) malloc(sizeof(char) * (param.m_size + 1));
         m_size = param.m_size;
         
-        for (int i = 0; i < param.m_size; i++)
+        for (size_t i = 0; i < param.m_size; i++)
             m_data[i] = param.m_data[i];
 
         m_data[m_size] = '\0';
@@ -65,7 +87,7 @@ class String
         return *this;
     } 
 
-    void printString()
+    void printString() const
     {
         if (!m_data)
             std::cout << "\nString is empty.\n";
@@ -109,6 +131,13 @@ int main()
     std::cout << "\nAssignment operators -";
     str1 = str2;
     str1.printString();
+    
+    std::cout << "\nMove constructor - ";
+    String str5{String("abcd")};
+
+    std::cout << "\nMove operator - ";
+    String str6;
+    str6 = std::move(str5);
 
     return 0;
 }
