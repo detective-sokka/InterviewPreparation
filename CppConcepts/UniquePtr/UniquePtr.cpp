@@ -50,6 +50,12 @@ public:
         return *this;
     }
 
+    void reset()
+    {
+        delete m_ptr;
+        m_ptr = nullptr;
+    }
+
     ~UniquePtr()
     {
         delete m_ptr;
