@@ -100,7 +100,7 @@ class String
         size_t m_size;
 };
 
-int main()
+int test_custom_string()
 {
 
     std::cout << "\nDefault constructor -";
