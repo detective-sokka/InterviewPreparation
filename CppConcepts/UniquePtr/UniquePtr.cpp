@@ -63,7 +63,7 @@ public:
     }
 };
 
-int main()
+int test_unique_ptr()
 {
     UniquePtr<int> a{new int(2)}; // param ctor 
     cout << "\n" << *a; // * operator
