@@ -1,8 +1,8 @@
 template <typename T>
-class SynchronizeValue {
+class ConditionVariable {
 
     public:
-        SynchronizeValue() {            
+        ConditionVariable() {            
         }
 
         void setValue(T val) {            
